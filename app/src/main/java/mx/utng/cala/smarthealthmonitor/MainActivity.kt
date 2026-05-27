@@ -19,22 +19,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import mx.utng.cala.smarthealthmonitor.navigation.SmartHealthNavGraph
 import mx.utng.cala.smarthealthmonitor.ui.theme.SmartHealthMonitorTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SmartHealthMonitorTheme {
-                Surface(modifier = Modifier.fillMaxSize()) {
-                    LoginScreen(
-                        onLoginSuccess = {
-                            // TODO sesión 5: navegar al Dashboard
-                            Log.d("SmartHealth", "Login exitoso")
-                        }
-                    )
-                }
-            }
+            SmartHealthNavGraph()
         }
     }
 }
