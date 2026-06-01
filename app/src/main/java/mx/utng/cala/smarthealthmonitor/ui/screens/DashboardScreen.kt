@@ -9,31 +9,31 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
-import mx.utng.cala.smarthealthmonitor.data.models.LecturaFC
-import mx.utng.cala.smarthealthmonitor.data.models.MockData
+
 import mx.utng.cala.smarthealthmonitor.ui.components.FilaHistorial
 import mx.utng.cala.smarthealthmonitor.ui.components.TarjetaDato
 import mx.utng.cala.smarthealthmonitor.ui.theme.SmartHealthMonitorTheme
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-
-
-
-
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import mx.utng.cala.smarthealthmonitor.ui.viewmodel.DashboardViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
     onHistorialClick: () -> Unit = {},
     onAlertClick: () -> Unit = {},
-    // TODO S6: Reemplazar con ViewModel que recibe datos del wearable
-    fc: Int = MockData.fcActual,
-    pasos: Int = MockData.pasosActual,
-    historial: List<LecturaFC> = MockData.historialFC
+    viewModel: DashboardViewModel = viewModel()  // ← inyección automática
 ) {
+    // collectAsState() convierte StateFlow en State de Compose
+    val fc     by viewModel.fc.collectAsState()
+    val pasos  by viewModel.pasos.collectAsState()
+    val historial = viewModel.historial
+
     SmartHealthMonitorTheme {
         Scaffold(
             topBar = {
