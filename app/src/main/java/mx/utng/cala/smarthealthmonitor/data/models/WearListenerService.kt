@@ -27,6 +27,7 @@ class WearListenerService : WearableListenerService() {
             PATH_FC -> {
                 val bpm = data.toIntOrNull() ?: return
                 serviceScope.launch {
+                    SmartHealthRepository.actualizarFC(bpm)
                 }
             }
             PATH_PASOS -> {

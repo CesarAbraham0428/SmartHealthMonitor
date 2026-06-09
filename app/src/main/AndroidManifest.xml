@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
+        android:name=".data.models.SmartHealthApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -23,9 +23,8 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".data.WearListenerService"
-            android:exported="true"
-            tools:ignore="MissingClass">
+        <service android:name=".data.models.WearListenerService"
+            android:exported="true">
             <intent-filter>
                 <action android:name=
                     "com.google.android.gms.wearable.MESSAGE_RECEIVED" />
