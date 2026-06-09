@@ -52,6 +52,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.8.0")
     // Wearable Data Layer API
     implementation("com.google.android.gms:play-services-wearable:18.2.0")
+    implementation(libs.androidx.ui)
 
     // Coroutines para await()
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
