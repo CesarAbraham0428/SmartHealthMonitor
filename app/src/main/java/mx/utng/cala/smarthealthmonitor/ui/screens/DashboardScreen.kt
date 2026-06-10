@@ -1,5 +1,10 @@
 package mx.utng.cala.smarthealthmonitor.ui.screens
 
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarDuration
+import kotlinx.coroutines.launch
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -25,43 +30,52 @@ import mx.utng.cala.smarthealthmonitor.ui.viewmodel.DashboardViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DashboardScreen(
+    viewModel: DashboardViewModel = viewModel(),
     onHistorialClick: () -> Unit = {},
-    onAlertClick: () -> Unit = {},
-    viewModel: DashboardViewModel = viewModel()  // ← inyección automática
+    onAlertClick: () -> Unit = {}
 ) {
-    // collectAsState() convierte StateFlow en State de Compose
-    val fc     by viewModel.fc.collectAsState()
-    val pasos  by viewModel.pasos.collectAsState()
+    val fc       by viewModel.fc.collectAsState()
+    val pasos    by viewModel.pasos.collectAsState()
     val historial by viewModel.historial.collectAsState()
 
-    SmartHealthMonitorTheme {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text(
-                            text = "SmartHealth",
-                            style = MaterialTheme.typography.titleLarge
-                        )
-                    },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor    = MaterialTheme.colorScheme.primary,
-                        titleContentColor = MaterialTheme.colorScheme.onPrimary
-                    )
-                )
-            },
-            floatingActionButton = {
-                FloatingActionButton(
-                    onClick       = onAlertClick,
-                    containerColor = MaterialTheme.colorScheme.error
-                ) {
-                    Icon(
-                        imageVector       = Icons.Default.Warning,
-                        contentDescription = "Enviar alerta de emergencia",
-                        tint              = MaterialTheme.colorScheme.onError
+    // ── Estado del diálogo y Snackbar ──────────────────────
+    var mostrarAlerta by remember { mutableStateOf(false) }
+    val snackbarHost  = remember { SnackbarHostState() }
+    val scope         = rememberCoroutineScope()
+
+    // ── Diálogo condicional ────────────────────────────────
+    if (mostrarAlerta) {
+        AlertaScreen(
+            fc          = fc,
+            onDismiss   = { mostrarAlerta = false },
+            onConfirmar = {
+                mostrarAlerta = false
+                scope.launch {
+                    snackbarHost.showSnackbar(
+                        message  = "✅ Alerta enviada a tus contactos de emergencia",
+                        duration = SnackbarDuration.Long
                     )
                 }
             }
+        )
+    }
+
+    SmartHealthMonitorTheme {
+        Scaffold(
+            // ── Snackbar host en el Scaffold ───────────────
+            snackbarHost = { SnackbarHost(hostState = snackbarHost) },
+            topBar  = { /* TopAppBar existente */ },
+            floatingActionButton = {
+                FloatingActionButton(
+                    onClick        = { mostrarAlerta = true },
+                    containerColor = MaterialTheme.colorScheme.error
+                ) {
+                    Icon(Icons.Default.Warning,
+                        contentDescription = "Enviar alerta de emergencia",
+                        tint = MaterialTheme.colorScheme.onError)
+                }
+            }
+
         ) { paddingValues ->
             // ⚠️ paddingValues OBLIGATORIO
             LazyColumn(
