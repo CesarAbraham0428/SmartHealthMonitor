@@ -1,6 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    id("com.android.application")
+    id("org.jetbrains.kotlin.android")
+    id("com.google.devtools.ksp")
+
 }
 
 android {
@@ -12,8 +16,7 @@ android {
     }
 
     defaultConfig {
-        // applicationId = "mx.utng.ich.smarthealth.wear"
-        applicationId = "mx.utng.ich.smarthealth"
+        applicationId = "mx.utng.cala.smarthealth"
         minSdk = 30
         targetSdk = 36
         versionCode = 1
@@ -64,6 +67,17 @@ dependencies {
 
     // Coroutines await() para Tasks de Google Play Services
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+
+    // Compose for Wear OS
+    implementation("androidx.wear.compose:compose-material:1.3.1")
+    implementation("androidx.wear.compose:compose-foundation:1.3.1")
+    implementation("androidx.wear.compose:compose-navigation:1.3.1")
+    // Horologist (utilidades Wear OS de Google)
+    implementation("com.google.android.horologist:horologist-compose-layout:0.6.17")
+    implementation("com.google.android.horologist:horologist-compose-material:0.6.17")
+    // Compartir Repository con el módulo app
+    implementation(project(":app"))
+
 
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)

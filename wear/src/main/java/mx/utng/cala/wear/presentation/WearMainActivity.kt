@@ -31,6 +31,10 @@ import mx.utng.cala.wear.presentation.data.models.HealthDataService
 import mx.utng.cala.wear.presentation.theme.SmarthealthmonitorTheme
 
 
+import androidx.activity.compose.setContent
+import mx.utng.cala.wear.presentation.theme.SmartHealthWearTheme
+
+
 class MainActivity : ComponentActivity() {
 
     private val permisosLauncher =
@@ -60,7 +64,11 @@ class MainActivity : ComponentActivity() {
         )
 
         setContent {
-            WearApp("Android")
+            SmartHealthWearTheme {
+                // TODO Ej.02: reemplazar con WearNavGraph
+                WearDashboardScreen()
+            }
+
         }
     }
 
