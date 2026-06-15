@@ -1,7 +1,7 @@
 package mx.utng.cala.smarthealthmonitor.ui.components
 
 import androidx.compose.runtime.Composable
-import mx.utng.cala.smarthealthmonitor.data.models.LecturaFC
+import mx.utng.cala.smarthealthmonitor.data.models.db.LecturaFC
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.ui.Alignment

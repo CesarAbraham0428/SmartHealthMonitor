@@ -1,11 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
-    id("com.google.devtools.ksp") version "2.1.10-1.0.30"
 }
 
 android {
-    namespace = "mx.utng.cala.smarthealthmonitor"
+    namespace = "mx.utng.cala.wear"
     compileSdk {
         version = release(36) {
             minorApiLevel = 1
@@ -13,13 +12,13 @@ android {
     }
 
     defaultConfig {
-        applicationId = "mx.utng.cala.smarthealthmonitor"
-        minSdk = 26
+        // applicationId = "mx.utng.ich.smarthealth.wear"
+        applicationId = "mx.utng.ich.smarthealth"
+        minSdk = 30
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -35,6 +34,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    useLibrary("wear-sdk")
     buildFeatures {
         compose = true
     }
@@ -43,33 +43,33 @@ android {
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
-    implementation(libs.androidx.core.ktx)
-    implementation("androidx.navigation:navigation-compose:2.8.0")
-    // Wearable Data Layer API
-    implementation("com.google.android.gms:play-services-wearable:18.2.0")
-    implementation(libs.androidx.ui)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.wear.tooling.preview)
+    implementation(libs.compose.material3)
+    implementation(libs.compose.ui.tooling)
 
-    // Coroutines para await()
+    // Wearable Data Layer
+    implementation(libs.play.services.wearable)
+
+    // Health Services API
+    implementation("androidx.health:health-services-client:1.1.0-alpha03")
+
+    // Coroutines await() para Guava ListenableFuture
+    implementation("com.google.guava:guava:33.0.0-android")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.7.3")
+
+    // Coroutines await() para Tasks de Google Play Services
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
-    implementation(libs.androidx.lifecycle.runtime.ktx)
-    testImplementation(libs.junit)
+
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(libs.androidx.junit)
+
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)
 
-    // Room
-    val roomVersion = "2.7.0-alpha11"
-    implementation("androidx.room:room-runtime:$roomVersion")
-    implementation("androidx.room:room-ktx:$roomVersion")
-    // Necesario para generar el código del DAO
-    ksp("androidx.room:room-compiler:$roomVersion")
-
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
 }
