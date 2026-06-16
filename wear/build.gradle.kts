@@ -1,27 +1,20 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("com.google.devtools.ksp")
-
+    alias(libs.plugins.ksp)
 }
 
 android {
     namespace = "mx.utng.cala.wear"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 35 
 
     defaultConfig {
         applicationId = "mx.utng.cala.smarthealth"
         minSdk = 30
-        targetSdk = 36
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
     }
 
     buildTypes {
@@ -37,7 +30,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    useLibrary("wear-sdk")
+    
     buildFeatures {
         compose = true
     }
@@ -46,14 +39,24 @@ android {
 dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.wear.tooling.preview)
-    implementation(libs.compose.material3)
+    
+    // Wear OS specific
+    implementation(libs.androidx.wear.compose.foundation)
+    implementation(libs.androidx.wear.compose.material)
+    implementation(libs.androidx.wear.compose.material3)
+    implementation(libs.androidx.wear.compose.navigation)
+    implementation(libs.androidx.wear.compose.ui.tooling.preview)
     implementation(libs.compose.ui.tooling)
+    debugImplementation(libs.androidx.wear.compose.ui.tooling)
+    implementation(libs.androidx.wear.tooling.preview)
+    
+    // Horologist
+    implementation(libs.horologist.compose.layout)
+    implementation(libs.horologist.compose.material)
 
     // Wearable Data Layer
     implementation(libs.play.services.wearable)
@@ -61,29 +64,12 @@ dependencies {
     // Health Services API
     implementation("androidx.health:health-services-client:1.1.0-alpha03")
 
-    // Coroutines await() para Guava ListenableFuture
+    // Coroutines y Guava
     implementation("com.google.guava:guava:33.0.0-android")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:1.7.3")
-
-    // Coroutines await() para Tasks de Google Play Services
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
-    // Compose for Wear OS
-    implementation("androidx.wear.compose:compose-material:1.3.1")
-    implementation("androidx.wear.compose:compose-foundation:1.3.1")
-    implementation("androidx.wear.compose:compose-navigation:1.3.1")
-    // Horologist (utilidades Wear OS de Google)
-    implementation("com.google.android.horologist:horologist-compose-layout:0.6.17")
-    implementation("com.google.android.horologist:horologist-compose-material:0.6.17")
-    // Compartir Repository con el módulo app
-    implementation(project(":app"))
-
-
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-
-    debugImplementation(libs.androidx.compose.ui.test.manifest)
-    debugImplementation(libs.androidx.compose.ui.tooling)
-
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
+    // Lifecycle
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
 }
