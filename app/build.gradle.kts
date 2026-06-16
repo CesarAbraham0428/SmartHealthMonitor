@@ -32,6 +32,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+    kotlinOptions {
+        jvmTarget = "11"
+    }
     buildFeatures {
         compose = true
     }
@@ -62,7 +65,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
 
     // Room
-    val roomVersion = "2.7.0-alpha11"
+    val roomVersion = "2.6.1"
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     // Necesario para generar el código del DAO

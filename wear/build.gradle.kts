@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.ksp)
 }
 
 android {
@@ -10,7 +9,7 @@ android {
     compileSdk = 35 
 
     defaultConfig {
-        applicationId = "mx.utng.cala.smarthealth"
+        applicationId = "mx.utng.cala.smarthealthmonitor"
         minSdk = 30
         targetSdk = 35
         versionCode = 1
@@ -29,6 +28,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = "11"
     }
     
     buildFeatures {
@@ -49,8 +51,6 @@ dependencies {
     implementation(libs.androidx.wear.compose.material)
     implementation(libs.androidx.wear.compose.material3)
     implementation(libs.androidx.wear.compose.navigation)
-    implementation(libs.androidx.wear.compose.ui.tooling.preview)
-    implementation(libs.compose.ui.tooling)
     debugImplementation(libs.androidx.wear.compose.ui.tooling)
     implementation(libs.androidx.wear.tooling.preview)
     
