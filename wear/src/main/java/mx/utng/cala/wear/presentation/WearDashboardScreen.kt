@@ -23,6 +23,7 @@ import mx.utng.cala.wear.presentation.components.WearFCCard
 @Composable
 fun WearDashboardScreen(
     onAlertClick: () -> Unit = {},
+    onHistorialClick: () -> Unit = {},
     viewModel: WearDashboardViewModel = viewModel()
 ) {
     val fc by viewModel.fc.collectAsState()
@@ -61,6 +62,14 @@ fun WearDashboardScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
             }
+            item {
+                Chip(
+                    label = { Text("📋 Historial") },
+                    onClick = onHistorialClick,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
         }
     }
 }

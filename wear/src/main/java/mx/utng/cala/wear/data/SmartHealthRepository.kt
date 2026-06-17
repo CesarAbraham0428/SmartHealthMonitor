@@ -1,8 +1,10 @@
 package mx.utng.cala.wear.data
 
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flowOf
 
 /**
  * Repositorio local para el Wear. 
@@ -23,4 +25,10 @@ object SmartHealthRepository {
     fun actualizarPasos(pasos: Int) {
         _pasosFlow.value = pasos
     }
+
+    /**
+     * Retorna el historial de lecturas. 
+     * Por ahora retorna una lista vacía ya que no hay persistencia local en el Wear.
+     */
+    fun obtenerHistorial(): Flow<List<LecturaFC>> = flowOf(emptyList())
 }

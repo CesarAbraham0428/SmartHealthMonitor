@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SmartHealthWearTheme {
-                WearDashboardScreen()
+                SmartHealthWearNavGraph()
             }
         }
     }
