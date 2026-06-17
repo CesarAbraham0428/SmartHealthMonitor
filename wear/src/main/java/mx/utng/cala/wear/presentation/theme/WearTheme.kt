@@ -18,7 +18,7 @@ private val WearDarkColors = Colors(
 )
 
 @Composable
-fun SmarthealthmonitorTheme(
+fun SmartHealthWearTheme(
     content: @Composable () -> Unit
 ) {
     MaterialTheme(
