@@ -54,6 +54,22 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".watchface.SmartHealthWatchFaceService"
+            android:exported="true"
+            android:label="SmartHealth Watch Face"
+            android:directBootAware="true">
+            <intent-filter>
+                <action android:name="androidx.wear.watchface.WatchFaceService" />
+            </intent-filter>
+            <meta-data
+                android:name="com.google.android.wearable.watchface.preview"
+                android:resource="@drawable/preview_digital" />
+            <meta-data
+                android:name="com.google.android.wearable.watchface.preview_circular"
+                android:resource="@drawable/preview_digital" />
+        </service>
+
 
     </application>
 
