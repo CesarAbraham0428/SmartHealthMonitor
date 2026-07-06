@@ -15,6 +15,9 @@ horologist = "0.6.17"
 coreSplashscreen = "1.0.1"
 wearToolingPreview = "1.0.0"
 ui = "1.11.2"
+appcompat = "1.7.1"
+tvFoundation = "1.0.0"
+tvMaterial = "1.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -48,6 +51,9 @@ horologist-compose-layout = { group = "com.google.android.horologist", name = "h
 horologist-compose-material = { group = "com.google.android.horologist", name = "horologist-compose-material", version.ref = "horologist" }
 compose-ui-tooling = { group = "androidx.wear.compose", name = "compose-ui-tooling", version.ref = "wearCompose" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "ui" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-tv-foundation = { group = "androidx.tv", name = "tv-foundation", version.ref = "tvFoundation" }
+androidx-tv-material = { group = "androidx.tv", name = "tv-material", version.ref = "tvMaterial" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
