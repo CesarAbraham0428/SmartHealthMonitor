@@ -9,6 +9,7 @@
         android:required="false" />
 
     <application
+        android:name=".AplicacionSmartHealthTV"
         android:allowBackup="true"
         android:theme="@style/Theme.SmartHealthTV"
         android:banner="@drawable/banner_tv"

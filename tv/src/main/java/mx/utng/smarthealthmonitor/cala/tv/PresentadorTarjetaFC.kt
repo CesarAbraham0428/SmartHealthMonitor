@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.ViewGroup
 import androidx.leanback.widget.ImageCardView
 import androidx.leanback.widget.Presenter
+import mx.utng.cala.smarthealthmonitor.data.models.db.LecturaFC
 
 /**
  * Presentador de tarjetas para las lecturas de Frecuencia Cardíaca (FC) en Android TV.
