@@ -22,4 +22,7 @@ interface LecturaFCDao {
         DELETE FROM lecturas_fc
         WHERE timestamp < :limite""")
     suspend fun limpiarViejos(limite: Long): Int
+
+    @Query("SELECT * FROM lecturas_fc WHERE id = :id LIMIT 1")
+    suspend fun obtenerPorId(id: Int): LecturaFC?
 }

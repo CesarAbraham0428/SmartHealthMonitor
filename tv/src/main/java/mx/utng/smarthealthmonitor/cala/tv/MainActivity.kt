@@ -4,17 +4,19 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 
 /**
- * MainActivity para Android TV.
- * Es solo el contenedor: carga FragmentoPrincipal.
- * TODA la lógica de UI va en el Fragment.
+ * Actividad principal de Android TV.
+ * Configura la vista con soporte de fragmentos y carga el fragmento del catálogo inicial.
+ * 
+ * Traducido al español en cumplimiento con las reglas del usuario.
  */
 class MainActivity : FragmentActivity() {
     override fun onCreate(estadoInstanciaGuardado: Bundle?) {
         super.onCreate(estadoInstanciaGuardado)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.actividad_principal)
+
         if (estadoInstanciaGuardado == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.contenedor_fragmento_principal, FragmentoPrincipal())
+                .replace(R.id.contenedor_fragmento, FragmentoCatalogo())
                 .commit()
         }
     }

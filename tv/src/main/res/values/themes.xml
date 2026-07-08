@@ -1,11 +1,9 @@
 <!-- tv/src/main/res/values/themes.xml -->
 <resources>
     <!-- Tema base para Android TV —
-         Theme.Leanback hereda de AppCompat y agrega los
-         estilos de navegación D-pad automáticamente -->
+         Se hereda de AppCompat.NoActionBar porque la interfaz y el foco
+         se gestionan en su totalidad con Jetpack Compose para TV. -->
     <style name="Theme.SmartHealthTV" parent="Theme.Leanback">
-        <item name="colorPrimary">@color/sh_primary</item>
-        <item name="colorAccent">@color/sh_amber</item>
-        <item name="android:colorBackground">@color/sh_dark</item>
+        <item name="android:windowBackground">@android:color/black</item>
     </style>
 </resources>
