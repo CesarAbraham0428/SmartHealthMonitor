@@ -56,15 +56,11 @@ dependencies {
     implementation(libs.androidx.tv.foundation)
     implementation(libs.androidx.tv.material)
 
-    // Leanback Library para pantallas de detalle y reproducción
-    implementation("androidx.leanback:leanback:1.2.0")
-
     // Media3 + ExoPlayer
     val media3Version = "1.4.1"
     implementation("androidx.media3:media3-exoplayer:$media3Version")
     implementation("androidx.media3:media3-ui:$media3Version")
-    implementation("androidx.media3:media3-ui-leanback:$media3Version")
-    implementation("androidx.leanback:leanback-preference:1.2.0")
+
 
     // Room para base de datos local del módulo TV
     implementation("androidx.room:room-runtime:2.6.1")

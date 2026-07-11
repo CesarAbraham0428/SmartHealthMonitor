@@ -3,7 +3,7 @@
     <!-- Tema base para Android TV —
          Se hereda de AppCompat.NoActionBar porque la interfaz y el foco
          se gestionan en su totalidad con Jetpack Compose para TV. -->
-    <style name="Theme.SmartHealthTV" parent="Theme.Leanback">
+    <style name="Theme.SmartHealthTV" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@android:color/black</item>
     </style>
 </resources>
