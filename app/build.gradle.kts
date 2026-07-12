@@ -71,4 +71,7 @@ dependencies {
     // Necesario para generar el código del DAO
     ksp("androidx.room:room-compiler:$roomVersion")
 
+    // Cast SDK
+    implementation("androidx.mediarouter:mediarouter:1.7.0")
+    implementation("com.google.android.gms:play-services-cast-framework:21.5.0")
 }
