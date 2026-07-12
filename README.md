@@ -46,5 +46,33 @@ Desarrollada como proyecto integrador — UTNG 9° Cuatrimestre 2025.
 ![WatchFace](screenshots/watchface.png)
 ![WearDashboard](screenshots/wear_dashboard.png)
 
+## Arquitectura
+
+```text
+SmartHealth Monitor
+Sensor PPG (Wear OS)
+Health Services API
+PassiveListenerService (wear)
+MessageClient (BLE)
+WearListenerService (app)
+▼
+SmartHealthRepository
+StateFlow<Int> (fcActual)
+DashboardViewModel (app)
+collectAsState()
+Dashboard Screen (Compose)
+CastButton
+TvViewModel (tv)
+collectAsState()
+▼
+TvCatalogScreen (Compose TV)
+→ Chromecast (Remote Playback)
+Room DB (LecturaFC)
+Repository
+Flow<List<LecturaFC>>
+HistorialScreen (app)
+TvCatalogScreen (tv)
+```
+
 ## Autor
 César Abraham López Aguilar— UTNG — lopezcesar0428@gmail.com
