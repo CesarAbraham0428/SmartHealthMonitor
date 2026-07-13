@@ -12,6 +12,8 @@ import mx.utng.cala.smarthealthmonitor.data.models.db.LecturaFC
 data class EstadoUiTv(
     val lecturas: List<LecturaFC> = emptyList(),
     val frecuenciaCardiacaActual: Int = 0,
+    val frecuenciaCardiacaEstado: String = "Normal",
+    val ultimaHoraFC: String = "--:--:--",
     val estaCargando: Boolean = true,
     val error: String? = null
 )

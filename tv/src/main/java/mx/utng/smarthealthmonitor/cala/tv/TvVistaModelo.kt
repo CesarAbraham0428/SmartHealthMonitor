@@ -1,10 +1,12 @@
 package mx.utng.smarthealthmonitor.cala.tv
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import mx.utng.cala.smarthealthmonitor.data.models.SmartHealthRepository
+import mx.utng.smarthealthmonitor.tv.mqtt.SuscriptorMqttTv
 
 /**
  * VistaModelo para la interfaz de televisión (Android TV) usando Jetpack Compose.
@@ -13,14 +15,31 @@ import mx.utng.cala.smarthealthmonitor.data.models.SmartHealthRepository
  * 
  * Traducido al español en cumplimiento con las reglas del usuario.
  */
-class TvVistaModelo : ViewModel() {
+class TvVistaModelo(application: Application) : AndroidViewModel(application) {
 
     private val _estado = MutableStateFlow(EstadoUiTv())
     val estado: StateFlow<EstadoUiTv> = _estado.asStateFlow()
 
+    private val suscriptorMqtt = SuscriptorMqttTv(application) { mensajeTv ->
+        // 1. Guardar la lectura recibida vía MQTT en el repositorio local de la TV (Room)
+        viewModelScope.launch {
+            SmartHealthRepository.actualizarFC(mensajeTv.bpm)
+        }
+
+        // 2. Actualizar el estado de la UI reactiva con los valores recibidos
+        _estado.update {
+            it.copy(
+                frecuenciaCardiacaActual = mensajeTv.bpm,
+                frecuenciaCardiacaEstado = mensajeTv.estado,
+                ultimaHoraFC = mensajeTv.hora
+            )
+        }
+    }
+
     init {
         observarHistorial()
         observarFrecuenciaCardiacaActual()
+        suscriptorMqtt.conectar()
     }
 
     private fun observarHistorial() {
@@ -53,5 +72,10 @@ class TvVistaModelo : ViewModel() {
                 }
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        suscriptorMqtt.desconectar()
     }
 }
