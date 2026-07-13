@@ -29,7 +29,7 @@ class PublicadorMqttReloj(private val contexto: Context) {
             socketFactory = javax.net.ssl.SSLSocketFactory.getDefault()
         }
 
-        cliente?.conectar(opciones, null, object : IMqttActionListener {
+        cliente?.connect(opciones, null, object : IMqttActionListener {
             override fun onSuccess(asyncActionToken: IMqttToken?) {
                 Log.d("MQTT_RELOJ", "☑ Conectado a HiveMQ Cloud")
             }

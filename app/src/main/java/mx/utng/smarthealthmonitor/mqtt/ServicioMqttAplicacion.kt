@@ -44,7 +44,7 @@ class ServicioMqttAplicacion(
             override fun deliveryComplete(token: IMqttDeliveryToken?) {}
         })
 
-        cliente?.conectar(opciones, null, object : IMqttActionListener {
+        cliente?.connect(opciones, null, object : IMqttActionListener {
             override fun onSuccess(token: IMqttToken?) {
                 cliente?.subscribe(ConfiguracionMqtt.TEMA_FC, ConfiguracionMqtt.QOS)
                 Log.d("MQTT_APP", "Conectado y suscrito a ${ConfiguracionMqtt.TEMA_FC}")

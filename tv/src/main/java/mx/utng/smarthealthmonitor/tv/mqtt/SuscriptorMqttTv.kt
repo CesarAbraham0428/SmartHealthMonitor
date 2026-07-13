@@ -48,7 +48,7 @@ class SuscriptorMqttTv(
             socketFactory = javax.net.ssl.SSLSocketFactory.getDefault()
         }
 
-        cliente?.conectar(opciones, null, object : IMqttActionListener {
+        cliente?.connect(opciones, null, object : IMqttActionListener {
             override fun onSuccess(token: IMqttToken?) {
                 cliente?.subscribe(ConfiguracionMqtt.TEMA_TV, ConfiguracionMqtt.QOS)
                 Log.d("MQTT_TV", " TV suscrita a ${ConfiguracionMqtt.TEMA_TV}")
