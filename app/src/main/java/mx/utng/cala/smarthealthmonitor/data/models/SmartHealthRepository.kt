@@ -47,10 +47,24 @@ object SmartHealthRepository {
         dao?.obtenerUltimas() ?: emptyFlow()
 }
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import mx.utng.smarthealthmonitor.mqtt.ServicioMqttAplicacion
+
 // En Application.kt (crear si no existe):
 class SmartHealthApp : Application() {
+    lateinit var servicioMqtt: ServicioMqttAplicacion
+
     override fun onCreate() {
         super.onCreate()
         SmartHealthRepository.init(this)  // inicializar Room
+
+        servicioMqtt = ServicioMqttAplicacion(this) { bpm ->
+            CoroutineScope(Dispatchers.IO).launch {
+                SmartHealthRepository.actualizarFC(bpm)
+            }
+        }
+        servicioMqtt.conectar()
     }
 }
