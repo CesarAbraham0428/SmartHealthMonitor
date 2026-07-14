@@ -38,8 +38,22 @@ object SmartHealthRepository {
 
     suspend fun actualizarFC(bpm: Int) {
         _fcFlow.value = bpm
+        val horaActual = java.text.SimpleDateFormat("HH:mm:ss", java.util.Locale.getDefault()).format(java.util.Date())
+        val estadoActual = when {
+            bpm < 60 -> "FC Baja"
+            bpm > 100 -> "FC Alta"
+            else -> "Normal"
+        }
         // Persistir en Room automáticamente
-        dao?.insertar(LecturaFC(valorBpm = bpm))
+        dao?.insertar(
+            LecturaFC(
+                bpm = bpm,
+                estado = estadoActual,
+                dispositivo = "app",
+                hora = horaActual,
+                sincronizado = false
+            )
+        )
     }
 
     fun actualizarPasos(pasos: Int) {
@@ -57,6 +71,9 @@ class SmartHealthApp : Application() {
     override fun onCreate() {
         super.onCreate()
         SmartHealthRepository.init(this)  // inicializar Room
+        
+        // Programar sincronización periódica con Neon PostgreSQL
+        mx.utng.cala.smarthealthmonitor.data.sync.TrabajadorSincronizacionNeon.programar(this)
 
         servicioMqtt = ServicioMqttAplicacion(this) { bpm ->
             CoroutineScope(Dispatchers.IO).launch {
