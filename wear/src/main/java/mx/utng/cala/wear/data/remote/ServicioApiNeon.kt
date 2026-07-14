@@ -1,17 +1,14 @@
 package mx.utng.cala.wear.data.remote
 
-import kotlinx.serialization.Serializable
 import retrofit2.http.*
 
 /** Petición genérica para la API HTTP de Neon */
-@Serializable
 data class PeticionNeon(
     val query: String,
     val params: List<String> = emptyList()
 )
 
 /** Respuesta de la API HTTP de Neon */
-@Serializable
 data class RespuestaNeon<T>(
     val rows: List<T> = emptyList(),
     val rowCount: Int = 0,
@@ -19,7 +16,6 @@ data class RespuestaNeon<T>(
 )
 
 /** DTO de lectura de frecuencia cardíaca (mapea la fila exacta de PostgreSQL) */
-@Serializable
 data class DtoLecturaFc(
     val id: Int = 0,
     val bpm: Int,
@@ -32,7 +28,7 @@ data class DtoLecturaFc(
 
 /** Interfaz Retrofit para interactuar con la API HTTP de Neon */
 interface ServicioApiNeon {
-    @POST("sql")
+    @POST("neondb/rest/v1/sql")
     suspend fun ejecutarConsulta(
         @Header("Authorization") autorizacion: String,
         @Header("Neon-Connection-String") cadenaConexion: String,

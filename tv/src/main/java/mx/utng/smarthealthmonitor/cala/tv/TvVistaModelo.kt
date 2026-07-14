@@ -3,6 +3,7 @@ package mx.utng.smarthealthmonitor.cala.tv
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import mx.utng.cala.smarthealthmonitor.data.models.SmartHealthRepository
@@ -40,7 +41,10 @@ class TvVistaModelo(application: Application) : AndroidViewModel(application) {
     init {
         cargarDatos()
         observarFrecuenciaCardiacaActual()
-        suscriptorMqtt.conectar()
+        viewModelScope.launch(Dispatchers.IO) {
+            runCatching { suscriptorMqtt.conectar() }
+                .onFailure { android.util.Log.w("TV_MQTT", "No se pudo conectar MQTT: ${it.message}") }
+        }
     }
 
     fun cargarDatos() {

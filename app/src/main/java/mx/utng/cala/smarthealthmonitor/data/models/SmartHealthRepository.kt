@@ -80,6 +80,13 @@ class SmartHealthApp : Application() {
                 SmartHealthRepository.actualizarFC(bpm)
             }
         }
-        servicioMqtt.conectar()
+        // Conectar MQTT en hilo IO para no bloquear el hilo principal (evita ANR)
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                servicioMqtt.conectar()
+            } catch (e: Exception) {
+                android.util.Log.e("SmartHealthApp", "Error al conectar MQTT: ${e.message}")
+            }
+        }
     }
 }

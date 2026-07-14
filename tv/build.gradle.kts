@@ -32,9 +32,7 @@ android {
         buildConfigField("String", "MQTT_USERNAME", "\"$mqttUsername\"")
         buildConfigField("String", "MQTT_PASSWORD", "\"$mqttPassword\"")
         
-        val neonApiKey = localProperties.getProperty("NEON_API_KEY") ?: ""
         val neonHost = localProperties.getProperty("NEON_HOST") ?: ""
-        buildConfigField("String", "NEON_API_KEY", "\"$neonApiKey\"")
         buildConfigField("String", "NEON_HOST", "\"$neonHost\"")
     }
 

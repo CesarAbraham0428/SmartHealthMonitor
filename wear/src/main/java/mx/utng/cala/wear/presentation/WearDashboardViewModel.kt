@@ -28,7 +28,13 @@ class WearDashboardViewModel(application: Application) : AndroidViewModel(applic
     val historial: StateFlow<List<LecturaFC>> = _historial.asStateFlow()
 
     init {
-        publicadorMqtt.conectar()
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                publicadorMqtt.conectar()
+            } catch (e: Exception) {
+                android.util.Log.e("WEAR_MQTT", "Error al conectar MQTT: ${e.message}")
+            }
+        }
         cargarHistorial()
         
         viewModelScope.launch {

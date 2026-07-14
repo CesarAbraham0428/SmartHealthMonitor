@@ -44,6 +44,16 @@ fun PantallaCatalogoTv(
             return@Box
         }
 
+        estado.error?.let {
+            Text(
+                text = "No se pudo sincronizar con Neon. Se muestran los datos locales.",
+                color = Color(0xFFFFCC80),
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 12.dp)
+            )
+        }
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
