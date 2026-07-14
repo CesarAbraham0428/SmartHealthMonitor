@@ -15,5 +15,7 @@ data class EstadoUiTv(
     val frecuenciaCardiacaEstado: String = "Normal",
     val ultimaHoraFC: String = "--:--:--",
     val estaCargando: Boolean = true,
-    val error: String? = null
+    val error: String? = null,
+    val estadisticas: List<LecturaFC> = emptyList(),
+    val alertas: List<LecturaFC> = emptyList()
 )

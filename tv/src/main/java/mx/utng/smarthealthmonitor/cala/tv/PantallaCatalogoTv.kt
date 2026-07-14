@@ -50,30 +50,59 @@ fun PantallaCatalogoTv(
                 .padding(48.dp),
             verticalArrangement = Arrangement.spacedBy(32.dp)
         ) {
-            // Fila 1: Frecuencia cardíaca en tiempo real
+            // Cabecera principal con botón Actualizar para control remoto
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Smart Health Monitor TV — Tiempo Real: ${estado.frecuenciaCardiacaActual} bpm",
+                        style = MaterialTheme.typography.headlineLarge,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Button(
+                        onClick = { vistaModelo.refrescar() }
+                    ) {
+                        Text("Actualizar")
+                    }
+                }
+            }
+
+            // Fila 1: Estado Actual (Promedios por Dispositivo)
             item {
                 SeccionFila(
-                    titulo = "⚡ Frecuencia Cardíaca Actual — ${estado.frecuenciaCardiacaActual} bpm"
+                    titulo = "⚡ Estado Actual (Promedios por Dispositivo)"
                 ) {
-                    LazyRow(
-                        horizontalArrangement = Arrangement.spacedBy(16.dp),
-                        contentPadding = PaddingValues(horizontal = 8.dp)
-                    ) {
-                        // Mostrar las últimas 3 lecturas si existen
-                        items(estado.lecturas.takeLast(3)) { lectura ->
-                            TarjetaLecturaFc(
-                                lectura = lectura,
-                                alHacerClic = { alSeleccionarLectura(lectura.id) }
-                            )
+                    if (estado.estadisticas.isEmpty()) {
+                        Text(
+                            text = "No hay estadísticas de dispositivos aún.",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = Color.White.copy(alpha = 0.6f),
+                            modifier = Modifier.padding(horizontal = 8.dp)
+                        )
+                    } else {
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            contentPadding = PaddingValues(horizontal = 8.dp)
+                        ) {
+                            items(estado.estadisticas) { lectura ->
+                                TarjetaLecturaFc(
+                                    lectura = lectura.copy(estado = "Origen: ${lectura.dispositivo.uppercase()}"),
+                                    alHacerClic = {}
+                                )
+                            }
                         }
                     }
                 }
             }
 
-            // Fila 2: Historial completo de lecturas en Room
+            // Fila 2: Historial completo de lecturas en Neon
             item {
                 SeccionFila(
-                    titulo = "📋 Historial Completo"
+                    titulo = "📋 Historial Completo (Últimas 50 lecturas)"
                 ) {
                     if (estado.lecturas.isEmpty()) {
                         Text(
@@ -88,6 +117,34 @@ fun PantallaCatalogoTv(
                             contentPadding = PaddingValues(horizontal = 8.dp)
                         ) {
                             items(estado.lecturas) { lectura ->
+                                TarjetaLecturaFc(
+                                    lectura = lectura,
+                                    alHacerClic = { alSeleccionarLectura(lectura.id) }
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Fila 3: Alertas Críticas (24h)
+            item {
+                SeccionFila(
+                    titulo = "⚠️ Alertas Críticas (Últimas 24h)"
+                ) {
+                    if (estado.alertas.isEmpty()) {
+                        Text(
+                            text = "No hay alertas críticas en las últimas 24 horas.",
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = Color.White.copy(alpha = 0.6f),
+                            modifier = Modifier.padding(horizontal = 8.dp)
+                        )
+                    } else {
+                        LazyRow(
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            contentPadding = PaddingValues(horizontal = 8.dp)
+                        ) {
+                            items(estado.alertas) { lectura ->
                                 TarjetaLecturaFc(
                                     lectura = lectura,
                                     alHacerClic = { alSeleccionarLectura(lectura.id) }

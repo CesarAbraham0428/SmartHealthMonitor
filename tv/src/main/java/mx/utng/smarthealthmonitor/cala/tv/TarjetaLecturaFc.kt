@@ -25,9 +25,10 @@ fun TarjetaLecturaFc(
 ) {
     // Si la lectura no es normal, usaremos un color rojo de advertencia cuando tenga foco,
     // y un tono rojo/borra de vino cuando no tenga foco para indicar anomalías.
-    val colorSinFoco = if (lectura.esNormal) Color(0xFF1565C0) else Color(0xFF8B0000)
-    val colorConFoco = if (lectura.esNormal) Color(0xFF42A5F5) else Color(0xFFEF5350)
-    val colorPresionado = if (lectura.esNormal) Color(0xFF0D47A1) else Color(0xFFB71C1C)
+    val esNormal = lectura.estado == "Normal" || lectura.estado.contains("Normal", ignoreCase = true)
+    val colorSinFoco = if (esNormal) Color(0xFF1565C0) else Color(0xFF8B0000)
+    val colorConFoco = if (esNormal) Color(0xFF42A5F5) else Color(0xFFEF5350)
+    val colorPresionado = if (esNormal) Color(0xFF0D47A1) else Color(0xFFB71C1C)
 
     Surface(
         onClick = alHacerClic,
@@ -44,14 +45,14 @@ fun TarjetaLecturaFc(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "${lectura.valorBpm} bpm",
+                text = "${lectura.bpm} bpm",
                 style = MaterialTheme.typography.headlineMedium,
                 color = Color.White,
                 fontWeight = FontWeight.Bold
             )
             Column {
                 Text(
-                    text = if (lectura.esNormal) "Normal" else "Fuera de rango",
+                    text = lectura.estado,
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.White.copy(alpha = 0.8f)
                 )

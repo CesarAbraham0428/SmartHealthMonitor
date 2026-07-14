@@ -17,6 +17,7 @@ import mx.utng.smarthealthmonitor.tv.mqtt.SuscriptorMqttTv
  */
 class TvVistaModelo(application: Application) : AndroidViewModel(application) {
 
+    private val repositorioNeon = mx.utng.smarthealthmonitor.cala.tv.data.RepositorioNeonTv()
     private val _estado = MutableStateFlow(EstadoUiTv())
     val estado: StateFlow<EstadoUiTv> = _estado.asStateFlow()
 
@@ -37,32 +38,35 @@ class TvVistaModelo(application: Application) : AndroidViewModel(application) {
     }
 
     init {
-        observarHistorial()
+        cargarDatos()
         observarFrecuenciaCardiacaActual()
         suscriptorMqtt.conectar()
     }
 
-    private fun observarHistorial() {
+    fun cargarDatos() {
         viewModelScope.launch {
-            SmartHealthRepository.obtenerHistorial()
-                .catch { errorCapturado ->
-                    _estado.update {
-                        it.copy(
-                            error = errorCapturado.message,
-                            estaCargando = false
-                        )
-                    }
+            _estado.update { it.copy(estaCargando = true) }
+            try {
+                val remotosHistorial = repositorioNeon.obtenerHistorialCompleto(50)
+                val remotosStats = repositorioNeon.obtenerEstadisticas()
+                val remotosAlertas = repositorioNeon.obtenerAlertasCriticas()
+                
+                _estado.update {
+                    it.copy(
+                        lecturas = remotosHistorial.map { dto -> dto.aLecturaFc() },
+                        estadisticas = remotosStats.map { dto -> dto.aLecturaFc() },
+                        alertas = remotosAlertas.map { dto -> dto.aLecturaFc() },
+                        estaCargando = false,
+                        error = null
+                    )
                 }
-                .collect { listaLecturas ->
-                    _estado.update {
-                        it.copy(
-                            lecturas = listaLecturas,
-                            estaCargando = false
-                        )
-                    }
-                }
+            } catch (e: Exception) {
+                _estado.update { it.copy(error = e.message, estaCargando = false) }
+            }
         }
     }
+
+    fun refrescar() = cargarDatos()
 
     private fun observarFrecuenciaCardiacaActual() {
         viewModelScope.launch {
