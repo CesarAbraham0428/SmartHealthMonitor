@@ -23,7 +23,7 @@ class PublicadorMqttReloj(private val contexto: Context) {
             userName = ConfiguracionMqtt.USUARIO
             password = ConfiguracionMqtt.CONTRASENA.toCharArray()
             isCleanSession = true
-            connectionTimeout = 30
+            connectionTimeout = 10
             keepAliveInterval = 60
             // SSL habilitado automáticamente por la URL ssl://
             socketFactory = javax.net.ssl.SSLSocketFactory.getDefault()

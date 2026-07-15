@@ -31,6 +31,9 @@ android {
         buildConfigField("String", "MQTT_BROKER_URL", "\"$mqttBrokerUrl\"")
         buildConfigField("String", "MQTT_USERNAME", "\"$mqttUsername\"")
         buildConfigField("String", "MQTT_PASSWORD", "\"$mqttPassword\"")
+        
+        val neonHost = localProperties.getProperty("NEON_HOST") ?: ""
+        buildConfigField("String", "NEON_HOST", "\"$neonHost\"")
     }
 
     buildTypes {
@@ -98,4 +101,10 @@ dependencies {
     
     // Kotlinx Serialization para JSON
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+
+    // Retrofit + OkHttp para llamadas a Neon HTTP API
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 }

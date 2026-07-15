@@ -8,6 +8,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CloudDone
+import androidx.compose.material.icons.filled.CloudQueue
 
 
 
@@ -34,11 +37,26 @@ fun FilaHistorial(
             else
                 MaterialTheme.colorScheme.error
         )
-        Text(
-            text = lectura.hora,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = lectura.hora,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(end = 8.dp)
+            )
+            Icon(
+                imageVector = if (lectura.sincronizado)
+                    androidx.compose.material.icons.Icons.Default.CloudDone
+                else
+                    androidx.compose.material.icons.Icons.Default.CloudQueue,
+                contentDescription = if (lectura.sincronizado) "Sincronizado" else "Pendiente",
+                tint = if (lectura.sincronizado)
+                    MaterialTheme.colorScheme.primary
+                else
+                    MaterialTheme.colorScheme.error,
+                modifier = Modifier.size(18.dp)
+            )
+        }
     }
     HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
 }

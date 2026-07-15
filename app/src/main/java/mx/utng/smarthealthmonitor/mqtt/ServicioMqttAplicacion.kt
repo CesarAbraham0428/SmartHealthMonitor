@@ -27,6 +27,8 @@ class ServicioMqttAplicacion(
             userName = ConfiguracionMqtt.USUARIO
             password = ConfiguracionMqtt.CONTRASENA.toCharArray()
             isCleanSession = true
+            connectionTimeout = 10
+            keepAliveInterval = 60
             socketFactory = javax.net.ssl.SSLSocketFactory.getDefault()
         }
 

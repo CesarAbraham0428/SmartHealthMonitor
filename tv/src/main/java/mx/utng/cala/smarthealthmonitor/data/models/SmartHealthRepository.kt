@@ -35,11 +35,11 @@ object SmartHealthRepository {
             dao?.let { lecturaDao ->
                 if (lecturaDao.contarRegistros() == 0) {
                     // Datos de ejemplo para poblar la pantalla de la TV en el primer inicio
-                    lecturaDao.insertar(LecturaFC(valorBpm = 75, esNormal = true))
-                    lecturaDao.insertar(LecturaFC(valorBpm = 82, esNormal = true))
-                    lecturaDao.insertar(LecturaFC(valorBpm = 99, esNormal = true))
-                    lecturaDao.insertar(LecturaFC(valorBpm = 112, esNormal = false)) // fuera de rango (rojo)
-                    lecturaDao.insertar(LecturaFC(valorBpm = 68, esNormal = true))
+                    lecturaDao.insertar(LecturaFC(bpm = 75, estado = "Normal", dispositivo = "tv", hora = "12:00:00"))
+                    lecturaDao.insertar(LecturaFC(bpm = 82, estado = "Normal", dispositivo = "tv", hora = "12:05:00"))
+                    lecturaDao.insertar(LecturaFC(bpm = 99, estado = "Normal", dispositivo = "tv", hora = "12:10:00"))
+                    lecturaDao.insertar(LecturaFC(bpm = 112, estado = "FC Alta", dispositivo = "tv", hora = "12:15:00"))
+                    lecturaDao.insertar(LecturaFC(bpm = 68, estado = "Normal", dispositivo = "tv", hora = "12:20:00"))
                 }
             }
         }
@@ -47,8 +47,14 @@ object SmartHealthRepository {
 
     suspend fun actualizarFC(bpm: Int) {
         _fcFlow.value = bpm
+        val horaActual = java.text.SimpleDateFormat("HH:mm:ss", java.util.Locale.getDefault()).format(java.util.Date())
+        val estadoActual = when {
+            bpm < 60 -> "FC Baja"
+            bpm > 100 -> "FC Alta"
+            else -> "Normal"
+        }
         // Guardar la lectura en la base de datos Room
-        dao?.insertar(LecturaFC(valorBpm = bpm, esNormal = bpm in 60..100))
+        dao?.insertar(LecturaFC(bpm = bpm, estado = estadoActual, dispositivo = "tv", hora = horaActual))
     }
 
     fun actualizarPasos(pasos: Int) {
