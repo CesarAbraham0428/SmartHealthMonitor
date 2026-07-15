@@ -13,6 +13,8 @@ import kotlinx.coroutines.guava.await
 import kotlinx.coroutines.runBlocking
 
 
+import mx.utng.cala.wear.data.SmartHealthRepository
+
 class HealthDataService : PassiveListenerService() {
 
     private lateinit var wearDataSender: WearDataSender
@@ -34,6 +36,9 @@ class HealthDataService : PassiveListenerService() {
             val bpm = ultimoDatoFC.value.toInt()
 
             Log.d("HealthDataService", "FC recibida desde sensor: $bpm")
+
+            // Actualizar el repositorio local de Wear OS
+            SmartHealthRepository.actualizarFC(bpm)
 
             runBlocking(Dispatchers.IO) {
                 wearDataSender.enviarFC(bpm)

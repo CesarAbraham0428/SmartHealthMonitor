@@ -11,6 +11,10 @@ import kotlinx.coroutines.flow.emptyFlow
 import mx.utng.cala.smarthealthmonitor.data.models.db.LecturaFC
 import mx.utng.cala.smarthealthmonitor.data.models.db.LecturaFCDao
 import mx.utng.cala.smarthealthmonitor.data.models.db.SmartHealthDB
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import mx.utng.smarthealthmonitor.mqtt.ServicioMqttAplicacion
 
 
 /**
@@ -46,11 +50,19 @@ object SmartHealthRepository {
     fun obtenerHistorial(): Flow<List<LecturaFC>> =
         dao?.obtenerUltimas() ?: emptyFlow()
 }
-
 // En Application.kt (crear si no existe):
 class SmartHealthApp : Application() {
+    lateinit var servicioMqtt: ServicioMqttAplicacion
+
     override fun onCreate() {
         super.onCreate()
         SmartHealthRepository.init(this)  // inicializar Room
+
+        servicioMqtt = ServicioMqttAplicacion(this) { bpm ->
+            CoroutineScope(Dispatchers.IO).launch {
+                SmartHealthRepository.actualizarFC(bpm)
+            }
+        }
+        servicioMqtt.conectar()
     }
 }
